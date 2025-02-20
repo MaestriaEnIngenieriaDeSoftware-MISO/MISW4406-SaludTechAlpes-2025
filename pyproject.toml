@@ -1,0 +1,20 @@
+[project]
+name = "saludtechalpes"
+version = "1.0.0"
+authors = [
+  { name="Cristian Pinzon", email="cc.pinzonh1@uniandes.edu.co" },
+  { name="Juan Carlos De Jesus", email="j.dejesus@uniandes.edu.co" },
+  { name="Edgar Melara", email="e.melara@uniandes.edu.co" },
+  { name="Andrés Sánchez", email="a.sanchez2001@uniandes.edu.co" },
+]
+description = "Proyecto de Salud Tech de los Alpes"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+pythonpath = [
+  ".", "src",
+]

@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request, url_for, redirect, jsonify
 from flask_swagger import swagger
+from saludtechalpes.api.imagenes import bp as imagenes_bp
 
 # Identifica el directorio base
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -50,6 +51,8 @@ def create_app(configuracion=None):
     # app.register_blueprint(vehiculos.bp)
     # app.register_blueprint(vuelos.bp)
 
+    app.register_blueprint(imagenes_bp)
+    
     @app.route("/spec")
     def spec():
         swag = swagger(app)

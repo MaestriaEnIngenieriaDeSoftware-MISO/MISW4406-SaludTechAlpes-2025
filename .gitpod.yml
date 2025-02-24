@@ -11,6 +11,13 @@ tasks:
   - name: Instalar dependencias
     init: gp sync-await bundle
     command: pip install -r requirements.txt
+  - name: Crear imagenes Docker
+    init: >
+      docker build . -f saludtechalpes.Dockerfile -t saludtechalpes/flask &&
+      gp sync-done images
+  - name: Pull el Docker compose
+    init: gp sync-await images
+    command: docker-compose pull
   
 
 

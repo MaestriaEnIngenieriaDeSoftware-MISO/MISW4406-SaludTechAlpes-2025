@@ -1,0 +1,11 @@
+version: '3'
+services:
+
+  # Servicios de Salud Tech de los Alpes
+  saludtechalpes:
+    container_name: saludtechalpes
+    hostname: saludtechalpes
+    image: saludtechalpes/flask
+    profiles: [ "saludtechalpes", "monolito" ]
+    ports:
+      - "5000:5000"

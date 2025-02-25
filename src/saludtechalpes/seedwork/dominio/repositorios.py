@@ -6,7 +6,7 @@ from saludtechalpes.modulos.imagenes.aplicacion.dto import DTO
 
 class Repositorio(Entidad):
     @abstractmethod
-    def consultar_entidades_por_parametros(self, query: QueryDTO) -> DTO:
+    def consultar_entidades_por_parametros(self, query: QueryDTO) -> list[Entidad]:
         ...
 
     @abstractmethod

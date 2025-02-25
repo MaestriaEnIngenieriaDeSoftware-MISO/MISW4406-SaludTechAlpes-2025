@@ -1,9 +1,13 @@
 from ....seedwork.dominio.repositorios import Mapeador;
+from saludtechalpes.seedwork.dominio.entidades import Entidad
 from saludtechalpes.modulos.imagenes.dominio.entidades import Imagen
 from saludtechalpes.modulos.imagenes.aplicacion.dto import ImagenDTO, ImagenesDTO
 
 class MapeadorImagenes(Mapeador):
-    
+
+    def dto_a_entidad(self, dto: any) -> Entidad:
+        pass
+
     def entidad_a_dto(self, entidad: Imagen) -> ImagenDTO:     
         imagenDTO = ImagenDTO(id = entidad.id, ruta_imagen_anonimizada=entidad.ruta_imagen_anonimizada, fecha_creacion=entidad.fecha_creacion)
         return imagenDTO

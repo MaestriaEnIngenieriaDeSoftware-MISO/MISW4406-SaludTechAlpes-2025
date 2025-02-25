@@ -1,10 +1,11 @@
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
 
-@dataclass(frozen=False)
+@dataclass(frozen=True)
 class DTO(ABC):
     ...
 
+@dataclass(frozen=True)
 class QueryDTO(DTO):
     ...
 

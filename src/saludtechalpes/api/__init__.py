@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, url_for, redirect, jsonify
 from flask_swagger import swagger
-from saludtechalpes.api.imagenes import bp as imagenes_bp
+from saludtechalpes.api.imagenes import bp
 
 # Identifica el directorio base
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -13,8 +13,7 @@ DB_USER = os.environ.get('DB_USER')
 DB_PASSWORD = os.environ.get('DB_PASSWORD')
 
 def importar_modelos_alchemy():
-    pass
-    # import aeroalpes.modulos.cliente.infraestructura.dto
+    import saludtechalpes.modulos.imagenes.infraestructura.dto
     # import aeroalpes.modulos.hoteles.infraestructura.dto
     # import aeroalpes.modulos.pagos.infraestructura.dto
     # import aeroalpes.modulos.precios_dinamicos.infraestructura.dto
@@ -41,11 +40,8 @@ def create_app(configuracion=None):
     with app.app_context():
         db.create_all()
 
-     # Importa Blueprints
-    from . import imagenes
-
     # Registro de Blueprints
-    app.register_blueprint(imagenes.bp)
+    app.register_blueprint(bp)
     
     @app.route("/spec")
     def spec():

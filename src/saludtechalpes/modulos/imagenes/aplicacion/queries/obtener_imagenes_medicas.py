@@ -1,6 +1,6 @@
-from src.saludtechalpes.seedwork.aplicacion.queries import Query, QueryHandler, QueryResultado, ejecutar_query
-from src.saludtechalpes.config.db import db
-from src.saludtechalpes.modulos.imagenes.dominio.entidades import Imagen
+from saludtechalpes.seedwork.aplicacion.queries import Query, QueryHandler, QueryResultado, ejecutar_query
+from saludtechalpes.config.db import db
+from saludtechalpes.modulos.imagenes.dominio.entidades import Imagen
 from dataclasses import dataclass
 from typing import List
 

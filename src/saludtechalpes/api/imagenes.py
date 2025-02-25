@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from src.saludtechalpes.seedwork.aplicacion.queries import ejecutar_query
-from src.saludtechalpes.modulos.imagenes.aplicacion.queries.obtener_imagenes_medicas import ObtenerImagenes
+from saludtechalpes.seedwork.aplicacion.queries import ejecutar_query
+from saludtechalpes.modulos.imagenes.aplicacion.queries.obtener_imagenes_medicas import ObtenerImagenes
 
 bp = Blueprint('imagenes', __name__, url_prefix='/imagenes')
 

@@ -1,17 +1,9 @@
 from dataclasses import dataclass, field
-import src.saludtechalpes.modulos.imagenes.dominio.objetos_valor as ov
+import saludtechalpes.modulos.imagenes.dominio.objetos_valor as ov
 import uuid
 from datetime import datetime, timezone
-from src.seedwork.dominio.entidades import AgregacionRaiz, Entidad
+from saludtechalpes.seedwork.dominio.entidades import AgregacionRaiz, Entidad
 
-@dataclass
-class Imagen(AgregacionRaiz):
-    id: uuid.UUID = field(default_factory=uuid.uuid4)
-    ruta_imagen_anonimizada: str = ""
-    fecha_creacion: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata: Metadata = field(default_factory=Metadata)
-    region_anatomica = field(default_factory=RegionAnatomica)
-    formato: str
 
 @dataclass
 class Metadata(Entidad):
@@ -24,5 +16,14 @@ class Metadata(Entidad):
 
 @dataclass
 class RegionAnatomica(Entidad):
-    nombre_region: str
+    nombre_region: str = field(default = "")
     organo: ov.Organo = field(default_factory = ov.Organo)
+
+@dataclass
+class Imagen(AgregacionRaiz):
+    id: uuid.UUID = field(default_factory=uuid.uuid4)
+    ruta_imagen_anonimizada: str = ""
+    fecha_creacion: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    metadata: Metadata = field(default_factory=Metadata)
+    region_anatomica: RegionAnatomica = field(default_factory=RegionAnatomica)
+    formato: str = field(default = "")

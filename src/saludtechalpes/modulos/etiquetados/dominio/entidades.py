@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
-import src.saludtechalpes.modulos.etiquetados.dominio.objetos_valor as ov
+import saludtechalpes.modulos.etiquetados.dominio.objetos_valor as ov
 import uuid
-from src.seedwork.dominio.entidades import Entidad
+from seedwork.dominio.entidades import Entidad
 
 @dataclass
 class Etiquetado(Entidad):

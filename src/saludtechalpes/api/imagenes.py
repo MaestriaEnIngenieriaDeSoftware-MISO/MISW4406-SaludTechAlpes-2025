@@ -1,8 +1,9 @@
-from flask import Blueprint, request, jsonify
+import saludtechalpes.seedwork.presentacion.api as api
+from flask import request, jsonify
 from saludtechalpes.seedwork.aplicacion.queries import ejecutar_query
 from saludtechalpes.modulos.imagenes.aplicacion.queries.obtener_imagenes_medicas import ObtenerImagenes
 
-bp = Blueprint('imagenes', __name__, url_prefix='/imagenes')
+bp = api.crear_blueprint('imagenes', '/imagenes')
 
 @bp.route("/obtener-imagenes", methods=["GET"])
 def obtener_imagenes():

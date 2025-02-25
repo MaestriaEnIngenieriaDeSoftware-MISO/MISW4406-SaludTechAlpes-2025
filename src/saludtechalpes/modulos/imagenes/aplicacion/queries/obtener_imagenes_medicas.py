@@ -1,5 +1,4 @@
 from saludtechalpes.seedwork.aplicacion.queries import Query, QueryHandler, QueryResultado, ejecutar_query
-from saludtechalpes.config.db import db
 from saludtechalpes.modulos.imagenes.dominio.entidades import Imagen
 from dataclasses import dataclass
 from typing import List
@@ -15,6 +14,7 @@ class ImagenResultado(QueryResultado):
 
 class ObtenerImagenesHandler(QueryHandler):
     def handle(self, query: ObtenerImagenes) -> ImagenResultado:
+        from saludtechalpes.config.db import db
         # Lógica para obtener las imágenes filtradas
         imagenes = db.session.query(Imagen).filter_by(
             tipo_patologia=query.tipo_patologia,

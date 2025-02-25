@@ -42,22 +42,10 @@ def create_app(configuracion=None):
         db.create_all()
 
      # Importa Blueprints
-    # from . import cliente
-    # from . import hoteles
-    # from . import pagos
-    # from . import precios_dinamicos
-    # from . import vehiculos
-    # from . import vuelos
+    from . import imagenes
 
     # Registro de Blueprints
-    # app.register_blueprint(cliente.bp)
-    # app.register_blueprint(hoteles.bp)
-    # app.register_blueprint(pagos.bp)
-    # app.register_blueprint(precios_dinamicos.bp)
-    # app.register_blueprint(vehiculos.bp)
-    # app.register_blueprint(vuelos.bp)
-
-    app.register_blueprint(imagenes_bp)
+    app.register_blueprint(imagenes.bp)
     
     @app.route("/spec")
     def spec():

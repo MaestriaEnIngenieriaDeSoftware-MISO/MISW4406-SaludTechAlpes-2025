@@ -1,8 +1,11 @@
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
 
-@dataclass(frozen=True)
-class DTO():
+@dataclass(frozen=False)
+class DTO(ABC):
+    ...
+
+class QueryDTO(DTO):
     ...
 
 class Mapeador(ABC):

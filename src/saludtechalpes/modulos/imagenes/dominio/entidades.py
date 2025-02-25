@@ -4,7 +4,6 @@ import uuid
 from datetime import datetime, timezone
 from saludtechalpes.seedwork.dominio.entidades import AgregacionRaiz, Entidad
 
-
 @dataclass
 class Metadata(Entidad):
     id: uuid.UUID = field(default_factory=uuid.uuid4)

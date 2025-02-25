@@ -1,6 +1,5 @@
-version: '3'
+version: '3.8'
 services:
-
   # Servicios de Salud Tech de los Alpes
   saludtechalpes:
     container_name: saludtechalpes
@@ -9,3 +8,73 @@ services:
     profiles: [ "saludtechalpes", "monolito" ]
     ports:
       - "5000:5000"
+    environment:
+      DB_NAME: saludtechalpes
+      DB_HOST: saludtechalpes_db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    depends_on:
+      saludtechalpes_db:
+        condition: service_healthy
+    networks:
+      - saludtechalpes_net
+  # Base de datos de Salud Tech de los Alpes
+  saludtechalpes_db:
+    image: postgres
+    volumes:
+      - saludtechalpes_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: saludtechalpes
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 5s
+      retries: 5
+    networks:
+      - saludtechalpes_net
+
+#  db_comandos:
+#    image: postgres:13
+#    container_name: db_comandos
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: password
+#      POSTGRES_DB: saludtechalpes
+#    volumes:
+#      - db_comandos_data:/var/lib/postgresql/data
+#    ports:
+#      - "5432:5432"
+#    command: ["postgres", "-c", "wal_level=replica", "-c", "archive_mode=on", "-c", "archive_command=/bin/true", "-c", "max_wal_senders=3", "-c", "hot_standby=on"]
+#
+#  db_queries:
+#    image: postgres:13
+#    container_name: db_queries
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: password
+#      POSTGRES_DB: saludtechalpes
+#    volumes:
+#      - db_queries_data:/var/lib/postgresql/data
+#    ports:
+#      - "5433:5432"
+#    depends_on:
+#      - db_comandos
+#    command: >
+#      bash -c "
+#      until pg_basebackup -h db_comandos -D /var/lib/postgresql/data -U postgres -vP -W; do
+#        echo 'esperado que db_comandos este lista...'
+#        sleep 1
+#      done &&
+#      echo 'standby_mode = on' > /var/lib/postgresql/data/recovery.conf &&
+#      echo 'primary_conninfo = \"host=db_comandos port=5432 user=postgres password=password\"' >> /var/lib/postgresql/data/recovery.conf &&
+#      postgres -c hot_standby=on
+#      "
+networks:
+  saludtechalpes_net:
+volumes:
+  saludtechalpes_data:
+#  db_comandos_data:
+#  db_queries_data:

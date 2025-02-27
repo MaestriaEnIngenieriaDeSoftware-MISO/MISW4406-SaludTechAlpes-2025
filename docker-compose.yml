@@ -22,8 +22,6 @@ services:
   # Base de datos de Salud Tech de los Alpes
   saludtechalpes_db:
     image: postgres
-    volumes:
-      - saludtechalpes_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: saludtechalpes
       POSTGRES_USER: postgres
@@ -33,8 +31,8 @@ services:
       interval: 2s
       timeout: 5s
       retries: 5
-    networks:
-      - saludtechalpes_net
+    ports:
+      - "5432:5432"
 
 #  db_comandos:
 #    image: postgres:13

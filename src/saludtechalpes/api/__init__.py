@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, url_for, redirect, jsonify
 from flask_swagger import swagger
 
+app = None
 # Identifica el directorio base
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -11,10 +12,17 @@ DB_PORT = os.environ.get('DB_PORT')
 DB_USER = os.environ.get('DB_USER')
 DB_PASSWORD = os.environ.get('DB_PASSWORD')
 
+def comenzar_consumidor():
+    import threading
+    import saludtechalpes.modulos.imagenes.infraestructura.consumidores as imagenes
+
+    threading.Thread(target= imagenes.suscribirse_a_comandos).start()
+
 def importar_modelos_alchemy():
     import saludtechalpes.modulos.imagenes.infraestructura.dto
 
 def create_app(configuracion=None):
+    global app
     # Init la aplicacion de Flask
     app = Flask(__name__, instance_relative_config=True)
 
@@ -27,11 +35,11 @@ def create_app(configuracion=None):
     init_db(app)
 
     from saludtechalpes.config.db import db
-    print(db)
     importar_modelos_alchemy()
 
     with app.app_context():
         db.create_all()
+        comenzar_consumidor()
 
      # Importa Blueprints
     from . import imagenes

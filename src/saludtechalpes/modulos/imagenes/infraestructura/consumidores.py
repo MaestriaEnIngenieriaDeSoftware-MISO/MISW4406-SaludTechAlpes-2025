@@ -4,6 +4,8 @@ import uuid
 import time
 import logging
 import traceback
+import datetime
+
 
 from saludtechalpes.modulos.imagenes.infraestructura.schema.v1.comandos import ComandoObtenerImagen
 from saludtechalpes.seedwork.aplicacion.queries import ejecutar_query
@@ -11,7 +13,8 @@ from saludtechalpes.modulos.imagenes.aplicacion.queries.obtener_imagenes_medicas
 from saludtechalpes.seedwork.infraestructura import utils
 from saludtechalpes.api import app
 from saludtechalpes.modulos.imagenes.aplicacion.mapeadores import MapeadorImagenDTOJson
-
+from saludtechalpes.modulos.imagenes.infraestructura.schema.v1.eventos import EventoExportacionImagenesFinalizado, EventoExportacionImagenesFinalizadoPayload
+from saludtechalpes.modulos.imagenes.infraestructura.despachadores import Despachador
 
 def suscribirse_a_comandos():
     cliente= None
@@ -22,18 +25,28 @@ def suscribirse_a_comandos():
             mensaje = consumidor.receive()
             comando_integracion = mensaje.value().data
             print(f'Comando recibido: {mensaje.value().data}')
-            consumidor.acknowledge(mensaje)   
 
             comando = ObtenerImagenes(
-                id= 1
+                tipo_imagen= comando_integracion.tipo_imagen,
+                tipo_patologia= comando_integracion.tipo_patologia
             )
             with app.app_context():
-                resultado = ejecutar_query(comando)
-                print('LO LOGREEEEEEEEEE')
+                resultado_imagenes = ejecutar_query(comando)
                 map_imagen = MapeadorImagenDTOJson()
-                imagen = map_imagen.dto_a_externo(resultado.resultado)
-                print(imagen)
-            #consumidor.acknowledge(mensaje)   
+                imagen = [map_imagen.dto_a_externo(resultado) for resultado in resultado_imagenes.resultado]
+
+                eventoFinalizado = EventoExportacionImagenesFinalizado(
+                    data = EventoExportacionImagenesFinalizadoPayload(
+                        mensaje = "La exportacion de imagenes ha sido exitosa",
+                        cantidad_imagenes_exportadas = len(imagen),
+                        estado = "Exitoso",
+                        timestamp = int(datetime.datetime.now().timestamp())
+                    )
+                )
+                despachador = Despachador()
+                despachador.publicar_evento(eventoFinalizado, 'eventos-notificaciones')
+
+            consumidor.acknowledge(mensaje)   
 
             
         cliente.close()

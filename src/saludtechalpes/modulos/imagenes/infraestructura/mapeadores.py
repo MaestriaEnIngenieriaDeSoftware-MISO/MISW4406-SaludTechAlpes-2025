@@ -4,7 +4,7 @@ from .dto import Imagen as ImagenDTO
 
 class MapeadorImagen(Mapeador):
     def dto_a_entidad(seld, dto: ImagenDTO) -> Imagen:
-        imagen = Imagen(dto.id, dto.ruta_imagen, dto.fecha_creacion, dto.formato)
+        imagen = Imagen(dto.id, dto.ruta_imagen, dto.fecha_creacion, dto.tipo_imagen)
         return imagen
 
     def obtener_tipo(self) -> type:

@@ -7,13 +7,13 @@ from .base import ImagenesQueryBaseHandler
 
 @dataclass
 class ObtenerImagenes(Query):
-    id: str
-
+    tipo_imagen: str
+    tipo_patologia: str
 
 class ObtenerImagenesHandler(ImagenesQueryBaseHandler):
     def handle(self, query: ObtenerImagenes) -> QueryResultado:
        repositorio = self.fabrica_repositorio.crear_objeto(RepositorioImagenes.__class__)
-       imagen = repositorio.obtener_por_id(query.id)
+       imagen = repositorio.obtener_todos(query.tipo_imagen, query.tipo_patologia)
        return QueryResultado(resultado=imagen)
 
 @ejecutar_query.register(ObtenerImagenes)

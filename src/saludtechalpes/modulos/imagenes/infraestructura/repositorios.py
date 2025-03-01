@@ -17,9 +17,10 @@ class RepositorioImagenesSQLLite(RepositorioImagenes):
     def fabrica_imagenes(self):
         return self._fabrica_imagenes
 
-    def obtener_por_id(self, id:UUID) -> ImagenDTO:
-        imagenDTO = db.session.query(ImagenDTO).filter_by(id=str(id)).one()
-        return self.fabrica_imagenes.crear_objeto(imagenDTO, MapeadorImagen())
+    def obtener_todos(self, tipo_imagen: str, tipo_patologia: str) -> list[Imagen]:
+        imagenesDTO = db.session.query(ImagenDTO).filter_by(tipo_imagen=tipo_imagen, tipo_patologia=tipo_patologia).all()
+        return [self.fabrica_imagenes.crear_objeto(imagenDTO, MapeadorImagen()) for imagenDTO in imagenesDTO]
+
     def agregar(self, entity: Imagen):
         # TODO
         raise NotImplementedError
@@ -32,7 +33,7 @@ class RepositorioImagenesSQLLite(RepositorioImagenes):
         # TODO
         raise NotImplementedError
     
-    def obtener_todos(self) -> list[Imagen]:
+    def obtener_por_id(self) -> list[Imagen]:
         # TODO
         raise NotImplementedError
 

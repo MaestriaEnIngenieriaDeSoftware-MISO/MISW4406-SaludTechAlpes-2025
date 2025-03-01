@@ -10,4 +10,5 @@ class Imagen(db.Model):
     ruta_imagen = db.Column(db.String)
     fecha_creacion = db.Column(db.DateTime, nullable=False)
     metadatos = db.Column(db.String) 
-    formato = db.Column(db.String)
+    tipo_imagen = db.Column(db.String)
+    tipo_patologia = db.Column(db.String)

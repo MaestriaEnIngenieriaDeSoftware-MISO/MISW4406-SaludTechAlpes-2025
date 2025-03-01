@@ -19,6 +19,7 @@ services:
         condition: service_healthy
     networks:
       - saludtechalpes_net
+      - pulsar
   # Base de datos de Salud Tech de los Alpes
   saludtechalpes_db:
     image: postgres

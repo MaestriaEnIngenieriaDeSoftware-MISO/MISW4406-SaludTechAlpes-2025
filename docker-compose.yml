@@ -14,6 +14,7 @@ services:
       DB_PORT: 5432
       DB_USER: postgres
       DB_PASSWORD: postgres
+      BROKER_HOST: pulsar
     depends_on:
       saludtechalpes_db:
         condition: service_healthy
@@ -43,6 +44,8 @@ services:
     profiles: [ "exportacionsta", "monolito" ]
     ports:
       - "5001:5000"
+    environment:
+      BROKER_HOST: pulsar
     depends_on:
       - pulsar
 

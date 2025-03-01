@@ -3,7 +3,8 @@ import json
 from flask import request, Response
 from exportacionsta.modulos.exportacion.aplicacion.mapeadores import MapeadorImagenesDTOJson
 from exportacionsta.seedwork.dominio.excepciones import ExcepcionDominio
-from exportacionsta.modulos.exportacion.aplicacion.servicios import ServicioExportacion
+from exportacionsta.modulos.exportacion.aplicacion.comandos.exportar_imagenes import ExportarImagenes
+from exportacionsta.seedwork.aplicacion.comandos import ejecutar_commando
 
 bp = api.crear_blueprint('exportar', '/exportar')
 
@@ -15,9 +16,10 @@ def exportar_Imagenes():
         map_imagenes = MapeadorImagenesDTOJson()
         exportar_imagenes_dto = map_imagenes.externo_a_dto(imagenes_dict)
 
-        se = ServicioExportacion()
-        dto_final = se.exportar_imagenes(exportar_imagenes_dto)
+        comando = ExportarImagenes(exportar_imagenes_dto.tipo_imagen,exportar_imagenes_dto.tipo_patologia)
 
-        return map_imagenes.dto_a_externo(dto_final)
+        ejecutar_commando(comando)
+
+        return Response('{}', status=202, mimetype='application/json')
     except ExcepcionDominio as e:
         return Response(json.dumps(dict(error=str(e))), status=400, mimetype='application/json')

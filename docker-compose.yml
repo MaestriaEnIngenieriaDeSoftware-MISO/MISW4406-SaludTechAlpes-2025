@@ -44,7 +44,6 @@ services:
       - "5001:5000"
     environment:
       BROKER_HOST: pulsar
-
     depends_on:
       - pulsar
 

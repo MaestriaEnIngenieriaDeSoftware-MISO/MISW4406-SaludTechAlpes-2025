@@ -3,4 +3,6 @@ from .esquemas import *
 
 @strawberry.type
 class Query:
-    imagenes: typing.List[Imagen] = strawberry.field(resolver=obtener_imagenes)
+    @strawberry.field
+    def imagenes(self, tipo_patologia: str, tipo_imagen: str) -> StatusResponse:
+        return obtener_imagenes(self, tipo_patologia, tipo_imagen)

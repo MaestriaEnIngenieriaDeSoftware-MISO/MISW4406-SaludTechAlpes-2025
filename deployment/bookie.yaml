@@ -22,6 +22,10 @@ metadata:
         app: pulsar
         component: bookkeeper
 spec:
+    selector:
+        matchLabels:
+            app: pulsar
+            component: bookkeeper
     template:
         metadata:
             labels:

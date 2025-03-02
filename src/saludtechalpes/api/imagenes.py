@@ -8,8 +8,4 @@ bp = api.crear_blueprint('imagenes', '/imagenes')
 
 @bp.route("/obtener-imagenes", methods=["GET"])
 def obtener_imagenes(id = 1):
-    despachador = Despachador()
-    despachador.publicar_comando()
-    resultado = ejecutar_query(ObtenerImagenes(id))
-    map_imagen = MapeadorImagenDTOJson()
-    return map_imagen.dto_a_externo(resultado.resultado)
+    pass

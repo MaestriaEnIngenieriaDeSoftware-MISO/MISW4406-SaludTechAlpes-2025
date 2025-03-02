@@ -24,6 +24,4 @@ class Imagen(AgregacionRaiz):
     id: uuid.UUID = field(default_factory=uuid.uuid4)
     ruta_imagen_anonimizada: str = ""
     fecha_creacion: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    #metadata: Metadata = field(default_factory=Metadata)
-    #region_anatomica: RegionAnatomica = field(default_factory=RegionAnatomica)
     formato: str = field(default = "")

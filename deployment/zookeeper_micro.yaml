@@ -27,7 +27,7 @@ spec:
   selector:
     app: zk
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: zk
@@ -37,6 +37,9 @@ spec:
   podManagementPolicy: Parallel
   updateStrategy:
     type: RollingUpdate
+  selector:
+    matchLabels:
+      app: zk
   template:
     metadata:
       labels:
@@ -59,7 +62,7 @@ spec:
         resources:
           requests:
             memory: "256Mi"
-            cpu: "0.25"
+            cpu: "0.5"
           limits:
             memory: "300Mi"
             cpu: "0.3"
@@ -74,7 +77,6 @@ spec:
         - sh
         - -c
         - "start-zookeeper \
-          --servers=1 \
           --data_dir=/var/lib/zookeeper/data \
           --data_log_dir=/var/lib/zookeeper/data/log \
           --conf_dir=/opt/zookeeper/conf \
@@ -121,3 +123,4 @@ spec:
       resources:
         requests:
           storage: 5Gi
+---

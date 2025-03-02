@@ -5,7 +5,6 @@ services:
     container_name: saludtechalpes
     hostname: saludtechalpes
     image: saludtechalpes/flask
-    profiles: [ "saludtechalpes", "monolito" ]
     ports:
       - "5000:5000"
     environment:
@@ -17,6 +16,8 @@ services:
       BROKER_HOST: pulsar
     depends_on:
       saludtechalpes_db:
+        condition: service_healthy
+      pulsar:
         condition: service_healthy
     networks:
       - saludtechalpes_net
@@ -41,13 +42,13 @@ services:
     container_name: exportacionsta
     hostname: exportacionsta
     image: exportacionsta/flask
-    profiles: [ "exportacionsta", "monolito" ]
     ports:
       - "5001:5000"
     environment:
       BROKER_HOST: pulsar
     depends_on:
-      - pulsar
+      pulsar:
+        condition: service_healthy
 
     networks:
       - saludtechalpes_net
@@ -58,6 +59,12 @@ services:
     ports:
       - "6650:6650"
       - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://pulsar:8080/metrics/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
     volumes:
       - pulsardata:/pulsar/data
       - pulsarconf:/pulsar/conf

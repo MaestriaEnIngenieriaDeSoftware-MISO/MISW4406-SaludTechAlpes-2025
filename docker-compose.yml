@@ -50,6 +50,26 @@ services:
     networks:
       - saludtechalpes_net
       - pulsar
+
+  bff_sta:
+    container_name: bff_sta
+    hostname: bff_sta
+    image: bff_sta/flask
+    # build:
+    #   context: .
+    #   dockerfile: bff.Dockerfile
+    profiles: [ "bff_sta", "monolito" ]
+    ports:
+      - "5002:5000"
+    environment:
+      EXPORTACION_STA_ADDRESS: exportacionsta
+      BROKER_HOST: pulsar
+    depends_on:
+      - exportacionsta
+      - pulsar
+    networks:
+      - saludtechalpes_net
+      - pulsar
   pulsar:
     image: apachepulsar/pulsar:4.0.3
     container_name: pulsar_standalone

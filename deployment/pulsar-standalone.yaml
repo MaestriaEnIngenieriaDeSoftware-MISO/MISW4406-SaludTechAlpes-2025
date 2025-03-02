@@ -1,0 +1,76 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pulsar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pulsar
+  template:
+    metadata:
+      labels:
+        app: pulsar
+    spec:
+      containers:
+      - name: pulsar
+        image: apachepulsar/pulsar:4.0.3
+        command: ["bin/pulsar"]
+        args: ["standalone"]
+        ports:
+          - containerPort: 6650
+          - containerPort: 8080
+        volumeMounts:
+          - name: pulsar-data
+            mountPath: /pulsar/data
+          - name: pulsar-conf
+            mountPath: /pulsar/conf
+      volumes:
+        - name: pulsar-data
+          persistentVolumeClaim:
+            claimName: pulsar-data-pvc
+        - name: pulsar-conf
+          persistentVolumeClaim:
+            claimName: pulsar-conf-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pulsar-data-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pulsar-conf-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pulsar
+spec:
+  selector:
+    app: pulsar
+  ports:
+    - name: binary
+      protocol: TCP
+      port: 6650
+      targetPort: 6650
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---

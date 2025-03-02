@@ -38,6 +38,10 @@ tasks:
       echo '🌤️ Configure gcloud with your key and projects you have to set in your Gitpod account : https://gitpod.io/user/variables'
       gcloud auth activate-service-account --key-file .gcloud-conf.json
       gcloud config set project $GCP_PROJECT
+
+      echo '☸️ Configure k8s'
+      gcloud components install gke-gcloud-auth-plugin --quiet
+      gcloud components install kubectl --quiet
   
 
 

@@ -1,7 +1,5 @@
 from strawberry.fastapi import GraphQLRouter
 from .consultas import Query
-
-
 import strawberry
 
 

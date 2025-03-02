@@ -75,7 +75,7 @@ spec:
         image: us-east1-docker.pkg.dev/salud-tech-alpes/saludtech/exportacionsta:1.0
         env:
           - name: BROKER_HOST
-            value: pulsar
+            value: pulsar1
         ports:
           - containerPort: 5000
 ---
@@ -84,11 +84,13 @@ kind: Service
 metadata:
   name: exportacionsta
 spec:
+  type:
+    LoadBalancer
   selector:
     app: exportacionsta
   ports:
     - protocol: TCP
       port: 5001
       targetPort: 5000
-  type: ClusterIP
+#  type: ClusterIP
 ---

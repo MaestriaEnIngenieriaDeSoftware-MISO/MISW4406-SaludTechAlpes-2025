@@ -1,8 +1,8 @@
 import os
 from flask import Flask, render_template, request, url_for, redirect, jsonify
 from flask_swagger import swagger
-from saludtechalpes.api.imagenes import bp as imagenes_bp
 
+app = None
 # Identifica el directorio base
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -12,20 +12,19 @@ DB_PORT = os.environ.get('DB_PORT')
 DB_USER = os.environ.get('DB_USER')
 DB_PASSWORD = os.environ.get('DB_PASSWORD')
 
+def comenzar_consumidor():
+    import threading
+    import saludtechalpes.modulos.imagenes.infraestructura.consumidores as imagenes
+
+    threading.Thread(target= imagenes.suscribirse_a_comandos).start()
+
 def importar_modelos_alchemy():
-    pass
-    # import aeroalpes.modulos.cliente.infraestructura.dto
-    # import aeroalpes.modulos.hoteles.infraestructura.dto
-    # import aeroalpes.modulos.pagos.infraestructura.dto
-    # import aeroalpes.modulos.precios_dinamicos.infraestructura.dto
-    # import aeroalpes.modulos.vehiculos.infraestructura.dto
-    # import aeroalpes.modulos.vuelos.infraestructura.dto
+    import saludtechalpes.modulos.imagenes.infraestructura.dto
 
 def create_app(configuracion=None):
+    global app
     # Init la aplicacion de Flask
     app = Flask(__name__, instance_relative_config=True)
-
-    # Configuracion de BD
     app.config['SQLALCHEMY_DATABASE_URI'] =(
             f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -35,11 +34,11 @@ def create_app(configuracion=None):
     init_db(app)
 
     from saludtechalpes.config.db import db
-
     importar_modelos_alchemy()
 
     with app.app_context():
         db.create_all()
+        comenzar_consumidor()
 
      # Importa Blueprints
     from . import imagenes

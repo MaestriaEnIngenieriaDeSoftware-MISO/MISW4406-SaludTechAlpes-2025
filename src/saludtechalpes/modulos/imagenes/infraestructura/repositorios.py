@@ -1,14 +1,12 @@
 from saludtechalpes.config.db import db
 from saludtechalpes.modulos.imagenes.dominio.repositorios import RepositorioImagenes
-#from saludtechalpes.modulos.imagenes.dominio.objetos_valor import 
 from saludtechalpes.modulos.imagenes.dominio.entidades import Imagen
-#from saludtechalpes.modulos.imagenes.dominio.
 from .dto import Imagen as ImagenDTO
 from uuid import UUID
 from saludtechalpes.modulos.imagenes.dominio.fabricas import FabricaImagenes
 from .mapeadores import MapeadorImagen
 
-class RepositorioImagenesSQLLite(RepositorioImagenes):
+class RepositorioImagenesPostgreSQL(RepositorioImagenes):
 
     def __init__(self):
         self._fabrica_imagenes: FabricaImagenes = FabricaImagenes()

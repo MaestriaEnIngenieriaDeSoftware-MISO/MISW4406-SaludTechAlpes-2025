@@ -66,14 +66,10 @@ services:
       - pulsar
 networks:
   saludtechalpes_net:
-#  networks:
   pulsar:
-#      driver: bridge
 volumes:
   saludtechalpes_data:
   pulsardata:
       name: pulsardata
   pulsarconf:
     name: pulsarconf
-#  db_comandos_data:
-#  db_queries_data:

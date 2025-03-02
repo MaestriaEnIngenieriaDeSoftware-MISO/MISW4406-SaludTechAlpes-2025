@@ -1,20 +1,19 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pulsar
+  name: pulsar1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pulsar
+      app: pulsar1
   template:
     metadata:
       labels:
-        app: pulsar
+        app: pulsar1
     spec:
       containers:
-      - name: pulsar
+      - name: pulsar1
         image: apachepulsar/pulsar:4.0.3
         command: ["bin/pulsar"]
         args: ["standalone"]
@@ -22,22 +21,22 @@ spec:
           - containerPort: 6650
           - containerPort: 8080
         volumeMounts:
-          - name: pulsar-data
-            mountPath: /pulsar/data
-          - name: pulsar-conf
-            mountPath: /pulsar/conf
+          - name: pulsar1-data
+            mountPath: /pulsa1r/data
+          - name: pulsar1-conf
+            mountPath: /pulsar1/conf
       volumes:
-        - name: pulsar-data
+        - name: pulsar1-data
           persistentVolumeClaim:
-            claimName: pulsar-data-pvc
-        - name: pulsar-conf
+            claimName: pulsar1-data-pvc
+        - name: pulsar1-conf
           persistentVolumeClaim:
-            claimName: pulsar-conf-pvc
+            claimName: pulsar1-conf-pvc
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pulsar-data-pvc
+  name: pulsar1-data-pvc
 spec:
   accessModes:
     - ReadWriteOnce
@@ -48,7 +47,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pulsar-conf-pvc
+  name: pulsar1-conf-pvc
 spec:
   accessModes:
     - ReadWriteOnce
@@ -59,10 +58,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: pulsar
+  name: pulsar1
 spec:
   selector:
-    app: pulsar
+    app: pulsar1
   ports:
     - name: binary
       protocol: TCP

@@ -5,7 +5,6 @@ services:
     container_name: saludtechalpes
     hostname: saludtechalpes
     image: saludtechalpes/flask
-    profiles: [ "saludtechalpes", "monolito" ]
     ports:
       - "5000:5000"
     environment:
@@ -18,12 +17,16 @@ services:
     depends_on:
       saludtechalpes_db:
         condition: service_healthy
+      pulsar:
+        condition: service_healthy
     networks:
       - saludtechalpes_net
       - pulsar
   # Base de datos de Salud Tech de los Alpes
   saludtechalpes_db:
     image: postgres
+    volumes:
+      - saludtechalpes_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: saludtechalpes
       POSTGRES_USER: postgres
@@ -39,30 +42,26 @@ services:
     container_name: exportacionsta
     hostname: exportacionsta
     image: exportacionsta/flask
-    profiles: [ "exportacionsta", "monolito" ]
     ports:
       - "5001:5000"
     environment:
       BROKER_HOST: pulsar
     depends_on:
-      - pulsar
+      pulsar:
+        condition: service_healthy
 
     networks:
       - saludtechalpes_net
       - pulsar
-
   bff_sta:
     container_name: bff_sta
     hostname: bff_sta
     image: bff_sta/flask
-    # build:
-    #   context: .
-    #   dockerfile: bff.Dockerfile
-    profiles: [ "bff_sta", "monolito" ]
     ports:
       - "5002:5000"
     environment:
       EXPORTACION_STA_ADDRESS: exportacionsta
+      EXPORTACION_STA_PORT: 5000
       BROKER_HOST: pulsar
     depends_on:
       - exportacionsta
@@ -76,6 +75,12 @@ services:
     ports:
       - "6650:6650"
       - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://pulsar:8080/metrics/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
     volumes:
       - pulsardata:/pulsar/data
       - pulsarconf:/pulsar/conf

@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: saludtechalpes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: saludtechalpes
+  template:
+    metadata:
+      labels:
+        app: saludtechalpes
+    spec:
+      containers:
+      - name: saludtechalpes
+        image: us-east1-docker.pkg.dev/salud-tech-alpes/saludtech/saludtech:1.0
+        env:
+          - name: DB_HOST
+            valueFrom:
+              secretKeyRef:
+                name: appsecrets
+                key: DB_HOST
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: appsecrets
+                key: DB_NAME
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: appsecrets
+                key: DB_USER
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: appsecrets
+                key: DB_PASSWORD
+          - name: DB_PORT
+            value: "5432"
+          - name: BROKER_HOST
+            value: pulsar1
+        ports:
+          - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: saludtechalpes
+spec:
+  selector:
+    app: saludtechalpes
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exportacionsta
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exportacionsta
+  template:
+    metadata:
+      labels:
+        app: exportacionsta
+    spec:
+      containers:
+      - name: exportacionsta
+        image: us-east1-docker.pkg.dev/salud-tech-alpes/saludtech/exportacionsta:1.0
+        env:
+          - name: BROKER_HOST
+            value: pulsar1
+        ports:
+          - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: exportacionsta
+spec:
+  type:
+    LoadBalancer
+  selector:
+    app: exportacionsta
+  ports:
+    - protocol: TCP
+      port: 5001
+      targetPort: 5000
+#  type: ClusterIP
+---

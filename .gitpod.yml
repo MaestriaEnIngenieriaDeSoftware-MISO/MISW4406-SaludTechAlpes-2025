@@ -27,8 +27,9 @@ tasks:
 
       echo '🌤️ Install gcloud'
       cd ..
-      curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-394.0.0-linux-x86_64.tar.gz
-      tar -xf google-cloud-cli-394.0.0-linux-x86_64.tar.gz
+      curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz
+      tar -xf google-cloud-cli-linux-x86_64.tar.gz
+
       ./google-cloud-sdk/install.sh
       cd ${GITPOD_REPO_ROOTS}
 

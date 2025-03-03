@@ -49,7 +49,24 @@ services:
     depends_on:
       pulsar:
         condition: service_healthy
-
+    networks:
+      - saludtechalpes_net
+      - pulsar
+  notificaciones:
+    container_name: notificaciones
+    hostname: notificaciones
+    image: notificaciones/flask
+    environment:
+      BROKER_HOST: pulsar
+      TOPICO: eventos-notificaciones
+      SUBSCRIPCION: eventos-notificaciones
+    ports:
+      - "5004:5000"
+    depends_on:
+      pulsar:
+        condition: service_healthy
+      saludtechalpes:
+         condition: service_healthy
     networks:
       - saludtechalpes_net
       - pulsar

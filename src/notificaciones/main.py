@@ -8,8 +8,14 @@ import os
 def broker_host():
     return os.getenv('BROKER_HOST', default="localhost")
 
+def topico():
+    return os.getenv('TOPICO', default="eventos-notificaciones")
+
+def subscripcion():
+    return os.getenv('SUBSCRIPCION', default="eventos-notificaciones")
+
 client = pulsar.Client(f'pulsar://{broker_host()}:6650')
-consumer = client.subscribe('eventos-notificaciones', consumer_type=_pulsar.ConsumerType.Shared, subscription_name='eventos-notificaciones', schema=AvroSchema(NotificacionEvento))
+consumer = client.subscribe(topico(), consumer_type=_pulsar.ConsumerType.Shared, subscription_name=subscripcion(), schema=AvroSchema(NotificacionEvento))
 
 while True:
     msg = consumer.receive()

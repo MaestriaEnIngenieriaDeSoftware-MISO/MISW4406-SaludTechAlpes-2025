@@ -16,3 +16,4 @@ tomli==2.0.1
 Werkzeug==2.2.2
 pulsar-client==2.10.2
 pulsar-client[avro]==2.10.2
+Flask==2.2.2

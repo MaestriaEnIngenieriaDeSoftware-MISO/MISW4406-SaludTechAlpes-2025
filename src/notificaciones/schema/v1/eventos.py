@@ -1,4 +1,5 @@
 from pulsar.schema import *
+import uuid
 
 class Evento(Record):
     id = String(default=str(uuid.uuid4()))

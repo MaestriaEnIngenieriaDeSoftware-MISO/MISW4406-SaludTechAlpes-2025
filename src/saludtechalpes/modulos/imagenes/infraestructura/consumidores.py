@@ -6,7 +6,6 @@ import logging
 import traceback
 import datetime
 
-
 from saludtechalpes.modulos.imagenes.infraestructura.schema.v1.comandos import ComandoObtenerImagen
 from saludtechalpes.seedwork.aplicacion.queries import ejecutar_query
 from saludtechalpes.modulos.imagenes.aplicacion.queries.obtener_imagenes_medicas import ObtenerImagenes

@@ -10,11 +10,12 @@ tasks:
       gp sync-done bundle
   - name: Instalar dependencias
     init: gp sync-await bundle
-    command: pip install -r requirements.txt && pip install -r exportacionsta-requirements.txt
+    command: pip install -r requirements.txt && pip install -r exportacionsta-requirements.txt && pip install -r bff-requirements.txt
   - name: Crear imagenes Docker
     init: >
       docker build . -f exportacionsta.Dockerfile -t exportacionsta/flask &&
       docker build . -f saludtechalpes.Dockerfile -t saludtechalpes/flask &&
+      docker build . -f bff.Dockerfile -t bff_sta/flask &&
       gp sync-done images
   - name: Pull el Docker compose
     init: gp sync-await images

@@ -1,4 +1,181 @@
 # MISW4406-SaludTechAlpes-2025
-This is a readme
-cambio Edgar
-Actualizado por Juan
+
+## 🎯 Propósito del Proyecto
+
+Este proyecto tiene como objetivo probar la arquitectura de nuestra aplicación mediante la implementación de distintos servicios. Se han seleccionado estos microservicios como prueba para evaluar los atributos de calidad de escalabilidad, disponibilidad y seguridad. Todos los servicios están desarrollados en Python, utilizando FastAPI para el BFF y Flask para los otros componentes.
+
+## 📁 Estructura del Proyecto
+
+El proyecto está organizado de la siguiente manera:
+
+```plaintext
+├── .github/                         # Pipelines de la aplicación
+├── deployment/                      # Carpeta de despliegue de microservicios en Kubernetes
+│   ├── k8s-deployment.yaml          # Despliega los microservicios
+│   ├── pulsar-standalone.yaml       # Despliega el servicio de Pulsar
+├── src/                             # Código fuente del proyecto
+│   ├── bff_sta/                     # Backend For Frontend (BFF) del servicio STA
+│   │   ├── __init__.py
+│   │   ├── api/
+│   │   ├── consumidores.py
+│   │   ├── despachadores.py
+│   │   ├── main.py
+│   │   ├── utils.py
+│   ├── exportacionsta/              # Servicio de exportación de imágenes
+│   │   ├── __init__.py
+│   │   ├── api/
+│   │   ├── aplicacion/
+│   │   ├── dominio/
+│   │   ├── infraestructura/
+│   ├── saludtechalpes/              # Servicio principal de Salud Tech de los Alpes
+│   │   ├── __init__.py
+│   │   ├── api/
+│   │   ├── aplicacion/
+│   │   ├── dominio/
+│   │   ├── infraestructura/
+│   ├── ui_sta/                      # Interfaz de usuario para el servicio STA
+│   │   ├── index.html
+│   │   ├── consumidor.js
+├── tests/                           # Pruebas unitarias del proyecto
+│   ├── __init__.py
+│   ├── unit/
+├── .coveragerc                       # Configuración de cobertura de pruebas
+├── .gitignore                        # Archivos y directorios ignorados por Git
+├── .gitpod.yml                       # Configuración de Gitpod
+├── bff-requirements.txt              # Dependencias del BFF
+├── bff.Dockerfile                    # Dockerfile para el BFF
+├── db-docker-compose.yml             # Docker Compose para la base de datos
+├── docker-compose.yml                # Docker Compose para todos los servicios
+├── docker-entrypoint-initdb.d/       # Scripts de inicialización para la base de datos
+│   ├── init-db.sh
+├── exportacionsta-requirements.txt   # Dependencias del servicio de exportación
+├── exportacionsta.Dockerfile         # Dockerfile para el servicio de exportación
+├── pyproject.toml                    # Configuración del proyecto
+├── README.md                         # Documentación principal del proyecto
+├── requirements.txt                   # Dependencias generales del proyecto
+├── saludtechalpes.Dockerfile         # Dockerfile para el servicio principal
+├── test.http                         # Archivo de pruebas HTTP
+```
+
+---
+
+## 🐍 Configuración de un Ambiente Virtual con Pyenv
+
+Para configurar un ambiente virtual de Python usando **pyenv**, sigue estos pasos:
+
+### 📥 Instalación de Pyenv
+1. Instala `pyenv` siguiendo las instrucciones oficiales: [Guía de instalación](https://github.com/pyenv/pyenv#installation).
+2. Verifica que `pyenv` esté instalado correctamente:
+   ```sh
+   pyenv --version
+   ```
+
+### 🔧 Configuración del Ambiente Virtual
+1. Instala la versión de Python requerida (por ejemplo, 3.10.6):
+   ```sh
+   pyenv install 3.10.6
+   ```
+2. Crea un entorno virtual con `pyenv virtualenv`:
+   ```sh
+   pyenv virtualenv 3.10.6 mi_entorno
+   ```
+3. Activa el entorno virtual en el proyecto:
+   ```sh
+   pyenv local mi_entorno
+   ```
+   Esto asegurará que el entorno virtual se use dentro del directorio del proyecto.
+
+4. Verifica que el entorno virtual está activo:
+   ```sh
+   pyenv version
+   ```
+
+5. Instala las dependencias del proyecto:
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+📌 *Recuerda agregar `.python-version` a tu `.gitignore` si no deseas compartir la configuración del entorno virtual.* 🚀
+
+---
+
+## 📦 Módulos
+
+### 🖥️ BFF STA
+El **Backend For Frontend (BFF)** es responsable de manejar las solicitudes del frontend y comunicarse con otros servicios.
+
+### 📤 Exportación STA
+El servicio de **exportación de imágenes médicas** gestiona la conversión y entrega de imágenes en diferentes formatos.
+
+### 🏥 Salud Tech de los Alpes
+El **servicio principal** que maneja la lógica de negocio y la interacción con la base de datos.
+
+### 🎨 UI STA
+La **interfaz de usuario** para el servicio STA, que permite a los usuarios interactuar con el sistema.
+
+---
+
+## 🚀 Ejecución de Servicios
+
+### 🐳 Ejecución con Docker Compose
+Para ejecutar todos los servicios de forma local usando **Docker Compose**, sigue estos pasos:
+
+1. Asegúrate de tener **Docker** y **Docker Compose** instalados.
+2. En la raíz del proyecto, ejecuta el siguiente comando:
+
+   ```sh
+   docker-compose up --build
+   ```
+
+   Esto construirá y levantará todos los servicios definidos en `docker-compose.yml`.
+
+---
+
+### ⚙️ Ejecución Individual sin Docker
+Si prefieres ejecutar los servicios manualmente sin usar Docker, sigue estos pasos:
+
+#### 🔹 **BFF STA**
+1. Instala las dependencias:
+   ```sh
+   pip install -r bff-requirements.txt
+   ```
+2. Ejecuta el servicio:
+   ```sh
+   uvicorn src.bff_sta.main:app --host 0.0.0.0 --port 5002
+   ```
+
+#### 🔹 **Exportación STA**
+1. Instala las dependencias:
+   ```sh
+   pip install -r exportacionsta-requirements.txt
+   ```
+2. Ejecuta el servicio:
+   ```sh
+   flask --app src.exportacionsta.api run --host=0.0.0.0 --port=5001
+   ```
+
+#### 🔹 **Salud Tech de los Alpes**
+1. Instala las dependencias:
+   ```sh
+   pip install -r requirements.txt
+   ```
+2. Ejecuta el servicio:
+   ```sh
+   flask --app src.saludtechalpes.api run --host=0.0.0.0 --port=5000
+   ```
+
+---
+
+## ☸️ Despliegue en Kubernetes
+Para desplegar los servicios en Kubernetes, utiliza los archivos de configuración en el directorio `deployment`.
+
+1. Asegúrate de tener `kubectl` y `gcloud` configurados.
+2. Aplica los archivos de configuracion para apache pulsar
+    ```sh
+   kubectl apply -f deployment/pulsar-standalone.yaml
+   ```
+3. Aplica los archivos de configuración de los service:
+   ```sh
+   kubectl apply -f deployment/k8s-deployment.yaml
+   ```
+

@@ -65,8 +65,6 @@ services:
     depends_on:
       pulsar:
         condition: service_healthy
-      saludtechalpes:
-         condition: service_healthy
     networks:
       - saludtechalpes_net
       - pulsar

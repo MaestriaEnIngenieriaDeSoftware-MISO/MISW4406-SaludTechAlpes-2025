@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 import asyncio
 import time
 import traceback
@@ -25,6 +26,15 @@ settings = Config()
 app_configs: dict[str, Any] = {"title": "BFF STA"}
 
 app = FastAPI(**app_configs)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permitir todos los orígenes
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 tasks = list()
 eventos = list()
 

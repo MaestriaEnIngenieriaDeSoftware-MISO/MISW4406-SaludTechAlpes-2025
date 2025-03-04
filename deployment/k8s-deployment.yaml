@@ -85,14 +85,13 @@ metadata:
   name: exportacionsta
 spec:
   type:
-    LoadBalancer
+    ClusterIP
   selector:
     app: exportacionsta
   ports:
     - protocol: TCP
       port: 5001
       targetPort: 5000
-#  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -110,7 +109,7 @@ spec:
     spec:
       containers:
       - name: notificaciones
-        image: us-east1-docker.pkg.dev/salud-tech-alpes/saludtech/notificaciones:2.0
+        image: us-east1-docker.pkg.dev/salud-tech-alpes/saludtech/notificaciones:1.1
         env:
           - name: BROKER_HOST
             value: pulsar1
@@ -152,7 +151,7 @@ spec:
           - name: EXPORTACION_STA_ADDRESS
             value: exportacionsta
           - name: EXPORTACION_STA_PORT
-            value: "5000"
+            value: "5001"
           - name: BROKER_HOST
             value: pulsar1
         ports:

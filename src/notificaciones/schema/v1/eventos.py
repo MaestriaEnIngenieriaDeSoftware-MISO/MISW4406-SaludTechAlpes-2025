@@ -1,11 +1,25 @@
 from pulsar.schema import *
 import uuid
+import time
 
-class Evento(Record):
+
+def time_millis():
+    return int(time.time() * 1000)
+
+class EventoIntegracion(Record):
     id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String()
+    type = String()
+    datacontenttype = String()
+    service_name = String()
 
-class NotificacionEvento(Evento):
+class EventoExportacionImagenesFinalizadoPayload(Record):
     mensaje = String()
     cantidad_imagenes_exportadas = Integer()
     estado = String()
     timestamp = Long()
+
+class NotificacionEvento(EventoIntegracion):
+    data = EventoExportacionImagenesFinalizadoPayload()

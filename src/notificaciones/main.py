@@ -1,6 +1,6 @@
 import pulsar, _pulsar
 from pulsar.schema import *
-from notificaciones.schema.v1.eventos import NotificacionEvento 
+from schema.v1.eventos import NotificacionEvento 
 import os
 
 def broker_host():

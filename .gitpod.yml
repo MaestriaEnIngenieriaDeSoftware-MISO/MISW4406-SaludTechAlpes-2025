@@ -16,6 +16,7 @@ tasks:
       docker build . -f exportacionsta.Dockerfile -t exportacionsta/flask &&
       docker build . -f saludtechalpes.Dockerfile -t saludtechalpes/flask &&
       docker build . -f bff.Dockerfile -t bff_sta/flask &&
+      docker build . -f notificaciones.Dockerfile -t notificaciones/flask &&
       gp sync-done images
   - name: Pull el Docker compose
     init: gp sync-await images

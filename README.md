@@ -4,7 +4,7 @@
 
 Este proyecto tiene como objetivo probar la arquitectura de nuestra aplicación mediante la implementación de distintos servicios. Se han seleccionado estos microservicios como prueba para evaluar los atributos de calidad de escalabilidad, disponibilidad y seguridad. Todos los servicios están desarrollados en Python, utilizando FastAPI para el BFF y Flask para los otros componentes.
 
-##🛡️ Escenarios de Calidad Cubiertos
+## 🛡️ Escenarios de Calidad Cubiertos
 
 ### 🔐 Seguridad: Cifrado de datos en tránsito
 

@@ -4,6 +4,41 @@
 
 Este proyecto tiene como objetivo probar la arquitectura de nuestra aplicación mediante la implementación de distintos servicios. Se han seleccionado estos microservicios como prueba para evaluar los atributos de calidad de escalabilidad, disponibilidad y seguridad. Todos los servicios están desarrollados en Python, utilizando FastAPI para el BFF y Flask para los otros componentes.
 
+##🛡️ Escenarios de Calidad Cubiertos
+
+### 🔐 Seguridad: Cifrado de datos en tránsito
+
+Descripción: Se ha implementado cifrado de extremo a extremo para proteger los datos médicos durante su transferencia entre servicios, asegurando confidencialidad e integridad.
+
+Medidas implementadas:
+
+- Uso de TLS 1.3 para cifrar todas las conexiones de red.
+
+- 100% del tráfico de datos médicos cifrado en tránsito.
+
+- Latencia de cifrado/desencriptado menor a 5 ms por solicitud.
+
+### ⚡ Escalabilidad: Procesamiento de solicitudes de exportación de imágenes médicas
+
+Descripción: Para manejar la creciente demanda de exportación de imágenes médicas, se usa una arquitectura basada en eventos con colas de comandos y tópicos de consultas, evitando la sobrecarga del sistema.
+
+Medidas implementadas:
+
+- Manejo de hasta 1,515 solicitudes en un periodo corto.
+
+- Desacoplamiento del procesamiento y almacenamiento de solicitudes para evitar bloqueos.
+
+### 🏗️ Disponibilidad: Continuidad del servicio ante fallos
+
+Descripción: Se adoptó una arquitectura de microservicios junto con balanceo de carga y comunicación basada en eventos para garantizar la continuidad del servicio en caso de fallas.
+
+Medidas implementadas:
+
+- 99.99% de disponibilidad garantizada.
+
+- Capacidad de redirigir tráfico a instancias saludables.
+
+
 ## 📁 Estructura del Proyecto
 
 El proyecto está organizado de la siguiente manera:

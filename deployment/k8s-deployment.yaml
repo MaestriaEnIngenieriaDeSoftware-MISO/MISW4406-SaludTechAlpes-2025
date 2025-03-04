@@ -110,7 +110,7 @@ spec:
     spec:
       containers:
       - name: notificaciones
-        image: us-east1-docker.pkg.dev/salud-tech-alpes/saludtech/notificaciones:1.0
+        image: us-east1-docker.pkg.dev/salud-tech-alpes/saludtech/notificaciones:2.0
         env:
           - name: BROKER_HOST
             value: pulsar1
@@ -147,7 +147,7 @@ spec:
     spec:
       containers:
       - name: bff-sta
-        image: us-east1-docker.pkg.dev/salud-tech-alpes/saludtech/bff-sta:1.0
+        image: us-east1-docker.pkg.dev/salud-tech-alpes/saludtech/bff:1.0
         env:
           - name: EXPORTACION_STA_ADDRESS
             value: exportacionsta

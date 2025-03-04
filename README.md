@@ -27,6 +27,10 @@ El proyecto está organizado de la siguiente manera:
 │   │   ├── aplicacion/
 │   │   ├── dominio/
 │   │   ├── infraestructura/
+│   ├── notificaciones/              # Servicio de exportación de imágenes
+│   │   ├── __init__.py
+│   │   ├── api/
+│   │   ├── schema/
 │   ├── saludtechalpes/              # Servicio principal de Salud Tech de los Alpes
 │   │   ├── __init__.py
 │   │   ├── api/
@@ -107,6 +111,9 @@ El **Backend For Frontend (BFF)** es responsable de manejar las solicitudes del 
 ### 📤 Exportación STA
 El servicio de **exportación de imágenes médicas** gestiona la conversión y entrega de imágenes en diferentes formatos.
 
+### 📤 Notificaciones
+El servicio de **notificaciones** recibe un evento e imprime una notifiacacion.
+
 ### 🏥 Salud Tech de los Alpes
 El **servicio principal** que maneja la lógica de negocio y la interacción con la base de datos.
 
@@ -152,6 +159,16 @@ Si prefieres ejecutar los servicios manualmente sin usar Docker, sigue estos pas
 2. Ejecuta el servicio:
    ```sh
    flask --app src.exportacionsta.api run --host=0.0.0.0 --port=5001
+   ```
+
+#### 🔹 **Notificacion**
+1. Instala las dependencias:
+   ```sh
+   pip install -r notificacion-requirements.txt
+   ```
+2. Ejecuta el servicio:
+   ```sh
+   python src/notificaciones/main.py
    ```
 
 #### 🔹 **Salud Tech de los Alpes**

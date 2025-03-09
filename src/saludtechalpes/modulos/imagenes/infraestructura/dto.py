@@ -12,3 +12,8 @@ class Imagen(db.Model):
     metadatos = db.Column(db.String) 
     tipo_imagen = db.Column(db.String)
     tipo_patologia = db.Column(db.String)
+
+class ImagenesExportadas(db.Model):
+    id = db.Column(db.String, primary_key=True)
+    total_imagenes = db.Column(db.Integer)
+    imagenes = db.Column(db.String)

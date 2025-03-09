@@ -8,3 +8,9 @@ class ComandoObtenerImagenPayload(ComandoIntegracion):
 
 class ComandoObtenerImagen(ComandoIntegracion):
     data = ComandoObtenerImagenPayload()
+
+class ComandoRollbackExportarImagenPayload(ComandoIntegracion):
+    id = String()
+
+class ComandoRollbackExportarImagen(ComandoIntegracion):
+    data = ComandoRollbackExportarImagenPayload()

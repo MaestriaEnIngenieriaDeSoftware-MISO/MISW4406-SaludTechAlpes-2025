@@ -21,5 +21,13 @@ class EventoExportacionImagenesFinalizadoPayload(Record):
     estado = String()
     timestamp = Long()
 
+class NotificacionEventoEstadoPayload(Record):
+    mensaje = String()
+    estado = Boolean()
+    timestamp = Long()
+
 class NotificacionEvento(EventoIntegracion):
     data = EventoExportacionImagenesFinalizadoPayload()
+
+class NotificacionEventoEstado(EventoIntegracion):
+    data = NotificacionEventoEstadoPayload()

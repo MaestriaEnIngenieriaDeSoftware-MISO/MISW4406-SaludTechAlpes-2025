@@ -27,6 +27,28 @@ def consultar_schema_registry(topico: str) -> dict:
     json_registry = response.json()
     return json_registry.get('data', {})
 
-def obtener_schema_avro_de_diccionario(json_schema: dict) -> AvroSchema:
-    definicion_schema = parse_schema(json_schema)
-    return AvroSchema(None, schema_definition=definicion_schema)
+def obtener_schema_avro_de_diccionario(json_schema: dict | str) -> AvroSchema:
+    try:
+        # Si json_schema es un string, parsearlo a diccionario
+        if isinstance(json_schema, str):
+            json_schema = json.loads(json_schema)
+
+        if "type" not in json_schema or json_schema["type"] != "record":
+            raise ValueError(f"El esquema obtenido no es un esquema Avro válido: {json_schema}")
+
+        # Extraer registros anidados
+        tipos_referenciados = []
+        for field in json_schema.get("fields", []):
+            if isinstance(field["type"], dict) and field["type"].get("type") == "record":
+                record_def = field["type"]
+                tipos_referenciados.append(record_def)
+                field["type"] = record_def["name"]
+
+        schema_completo = [json_schema] + tipos_referenciados
+
+        # Pasar el esquema corregido a fastavro
+        definicion_schema = parse_schema(schema_completo)
+        return AvroSchema(None, schema_definition=definicion_schema)
+
+    except Exception as e:
+        raise ValueError(f"Error procesando el esquema Avro: {e}, esquema: {json_schema}")

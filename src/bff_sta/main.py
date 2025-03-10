@@ -6,6 +6,7 @@ import traceback
 import uvicorn
 import uuid
 import datetime
+import json
 
 
 from pydantic import BaseSettings
@@ -42,7 +43,7 @@ eventos = list()
 async def app_startup():
     global tasks
     global eventos
-    task1 = asyncio.ensure_future(suscribirse_a_topico("eventos-notificacion", "bff-sta", "public/default/eventos-notificaciones", eventos=eventos)) # Cambiar al topico real
+    task1 = asyncio.ensure_future(suscribirse_a_topico("eventos-notificaciones", "bff-sta", "public/default/eventos-notificaciones", eventos=eventos)) # Cambiar al topico real
     tasks.append(task1)
 
 @app.on_event("shutdown")
@@ -55,7 +56,12 @@ def shutdown_event():
 async def stream_mensajes(request: Request):
     def nuevo_evento():
         global eventos
-        return {'data': eventos.pop(), 'event': 'NuevoEvento'}
+        if eventos:
+            evento = eventos.pop()
+            evento_json = json.dumps(evento)
+            return f'data: {evento_json}\n\n'
+        return None
+
     async def leer_eventos():
         global eventos
         while True:

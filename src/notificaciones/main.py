@@ -32,6 +32,7 @@ while True:
         print('==== Envía correo a usuario ====')
         evento_estado = NotificacionEventoEstado(
             data=NotificacionEventoEstadoPayload(
+                id_exportacion= msg.value().data.id,
                 mensaje="Correo enviado exitosamente",
                 estado=True,
                 timestamp=time_millis()
@@ -41,6 +42,7 @@ while True:
         print('==== No se envía correo a usuario ====')
         evento_estado = NotificacionEventoEstado(
             data=NotificacionEventoEstadoPayload(
+                id_exportacion= msg.value().data.id,
                 mensaje="No se pudo enviar el correo",
                 estado=False,
                 timestamp=time_millis()

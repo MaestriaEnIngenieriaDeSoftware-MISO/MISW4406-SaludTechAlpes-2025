@@ -1,4 +1,5 @@
 import pulsar, _pulsar
+import random
 from pulsar.schema import *
 from schema.v1.eventos import NotificacionEvento 
 import os
@@ -21,7 +22,10 @@ while True:
     print("Mensaje Recibido: '%s'" % msg.value())
     print('=========================================')
 
-    print('==== Envía correo a usuario ====')
+    if random.choice([True, False]):
+        print('==== Envía correo a usuario ====')
+    else:
+        print('==== No se envía correo a usuario ====')
 
     consumer.acknowledge(msg)
 

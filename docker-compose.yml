@@ -60,6 +60,7 @@ services:
       BROKER_HOST: pulsar
       TOPICO: eventos-notificaciones
       SUBSCRIPCION: eventos-notificaciones
+      TOPICO_ESTADO: eventos-notificaciones-estado
     ports:
       - "5004:5000"
     depends_on:

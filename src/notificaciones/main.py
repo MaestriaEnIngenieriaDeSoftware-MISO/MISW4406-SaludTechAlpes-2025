@@ -12,15 +12,15 @@ def broker_host():
 def topico():
     return os.getenv('TOPICO', default="eventos-notificaciones")
 
-def topico_rollbacks():
-    return os.getenv('TOPICO_ROLLBACKS', default="revertir-exportacion")
+def topico_estado():
+    return os.getenv('TOPICO_ESTADO', default="eventos-notificaciones-estado")
 
 def subscripcion():
     return os.getenv('SUBSCRIPCION', default="eventos-notificaciones")
 
 client = pulsar.Client(f'pulsar://{broker_host()}:6650')
 consumer = client.subscribe(topico(), consumer_type=_pulsar.ConsumerType.Shared, subscription_name=subscripcion(), schema=AvroSchema(NotificacionEvento))
-publisher = client.create_producer(topico_rollbacks(), schema=AvroSchema(NotificacionEventoEstado))
+publisher = client.create_producer(topico_estado(), schema=AvroSchema(NotificacionEventoEstado))
 
 while True:
     msg = consumer.receive()

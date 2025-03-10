@@ -1,10 +1,9 @@
 import pulsar, _pulsar
 import random
 from pulsar.schema import *
-from schema.v1.eventos import NotificacionEvento, NotificacionEventoEstadoPayload, time_millis
+from schema.v1.eventos import NotificacionEvento, NotificacionEventoEstadoPayload, NotificacionEventoEstado,  time_millis
 import os
 
-from src.notificaciones.schema.v1.eventos import NotificacionEventoEstado
 
 
 def broker_host():

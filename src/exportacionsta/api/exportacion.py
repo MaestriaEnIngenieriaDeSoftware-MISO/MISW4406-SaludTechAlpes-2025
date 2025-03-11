@@ -5,20 +5,26 @@ from exportacionsta.modulos.exportacion.aplicacion.mapeadores import MapeadorIma
 from exportacionsta.seedwork.dominio.excepciones import ExcepcionDominio
 from exportacionsta.modulos.exportacion.aplicacion.comandos.exportar_imagenes import ExportarImagenes
 from exportacionsta.seedwork.aplicacion.comandos import ejecutar_commando
+from exportacionsta.modulos.sagas.coordinadores.saga_exportacion import CoordinadorSagaExportacion, oir_mensaje
+from exportacionsta.modulos.exportacion.dominio.eventos import ExportacionImagenesIniciada
+import uuid
 
 bp = api.crear_blueprint('exportar', '/exportar')
 
 @bp.route('/', methods=['POST'])
 def exportar_Imagenes():
     try:
+        saga = CoordinadorSagaAnonimizacion()
+        saga.iniciar(uuid.UUID)
+
         imagenes_dict = request.json
 
         map_imagenes = MapeadorImagenesDTOJson()
         exportar_imagenes_dto = map_imagenes.externo_a_dto(imagenes_dict)
 
-        comando = ExportarImagenes(exportar_imagenes_dto.tipo_imagen,exportar_imagenes_dto.tipo_patologia)
+        comando = ExportacionImagenesIniciada(exportar_imagenes_dto.tipo_imagen,exportar_imagenes_dto.tipo_patologia)
 
-        ejecutar_commando(comando)
+        oir_mensaje(comando)
 
         return Response('{}', status=202, mimetype='application/json')
     except ExcepcionDominio as e:

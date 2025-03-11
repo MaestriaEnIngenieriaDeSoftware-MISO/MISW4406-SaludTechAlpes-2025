@@ -16,20 +16,10 @@ class EventoIntegracion(Record):
     service_name = String()
 
 class EventoExportacionImagenesFinalizadoPayload(Record):
-    id = String()
     mensaje = String()
     cantidad_imagenes_exportadas = Integer()
     estado = String()
     timestamp = Long()
 
-class NotificacionEventoEstadoPayload(Record):
-    id_exportacion = String()
-    mensaje = String()
-    estado = Boolean()
-    timestamp = Long()
-
 class NotificacionEvento(EventoIntegracion):
     data = EventoExportacionImagenesFinalizadoPayload()
-
-class NotificacionEventoEstado(EventoIntegracion):
-    data = NotificacionEventoEstadoPayload()

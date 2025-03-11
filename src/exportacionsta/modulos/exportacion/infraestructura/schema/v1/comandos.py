@@ -8,3 +8,21 @@ class ComandoObtenerImagenesPayload(ComandoIntegracion):
 
 class ComandoObtenerImagenes(ComandoIntegracion):
     data = ComandoObtenerImagenesPayload()
+
+
+
+class NotificacionEventoEstadoPayload(ComandoIntegracion):
+    id_exportacion = String()
+    mensaje = String()
+    estado = Boolean()
+    timestamp = Long()
+
+class NotificacionEventoEstado(ComandoIntegracion):
+    data = NotificacionEventoEstadoPayload()
+
+
+class ComandoRollbackExportarImagenPayload(ComandoIntegracion):
+    id = String()
+
+class ComandoRollbackExportarImagen(ComandoIntegracion):
+    data = ComandoRollbackExportarImagenPayload()

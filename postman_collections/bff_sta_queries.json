@@ -21,7 +21,7 @@
             "raw": "{\n  \"query\": \"query { imagenes(tipoPatologia: \\\"patologia 1\\\", tipoImagen: \\\"tipo imagen 1\\\") { statusCode } }\"\n}"
           },
           "url": {
-            "raw": "http://localhost:5002/graphql",
+            "raw": "http://localhost:5002/v1",
             "protocol": "http",
             "host": [
               "localhost"

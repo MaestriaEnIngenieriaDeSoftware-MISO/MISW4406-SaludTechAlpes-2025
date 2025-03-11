@@ -1,7 +1,7 @@
 from .entidades import Imagen
-from saludtechalpes.seedwork.dominio.repositorios import Mapeador, Repositorio
-from saludtechalpes.seedwork.dominio.fabricas import Fabrica
-from saludtechalpes.seedwork.dominio.entidades import Entidad
+from exportacionsta.seedwork.dominio.repositorios import Mapeador, Repositorio
+from exportacionsta.seedwork.dominio.fabricas import Fabrica
+from exportacionsta.seedwork.dominio.entidades import Entidad
 from dataclasses import dataclass
 
 @dataclass

@@ -3,7 +3,8 @@ import json
 from flask import request, Response
 from exportacionsta.modulos.exportacion.aplicacion.mapeadores import MapeadorImagenesDTOJson
 from exportacionsta.seedwork.dominio.excepciones import ExcepcionDominio
-from exportacionsta.modulos.exportacion.aplicacion.comandos.exportar_imagenes import ExportarImagenes
+from exportacionsta.modulos.exportacion.aplicacion.comandos.exportar_imagenes import ExportarImagenes, RegistrarOperacion
+
 from exportacionsta.seedwork.aplicacion.comandos import ejecutar_commando
 
 bp = api.crear_blueprint('exportar', '/exportar')

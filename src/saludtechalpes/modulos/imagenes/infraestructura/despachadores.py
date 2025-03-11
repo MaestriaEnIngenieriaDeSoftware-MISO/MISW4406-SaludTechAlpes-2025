@@ -1,9 +1,9 @@
 import pulsar
 from pulsar.schema import *
 
-from saludtechalpes.modulos.imagenes.infraestructura.schema.v1.comandos import ComandoObtenerImagen, ComandoObtenerImagenPayload
+from saludtechalpes.modulos.imagenes.infraestructura.schema.v1.comandos import ComandoObtenerImagen, ComandoObtenerImagenPayload, ComandoRollbackExportarImagen, ComandoRollbackExportarImagenPayload
 from saludtechalpes.seedwork.infraestructura import utils
-from saludtechalpes.modulos.imagenes.infraestructura.schema.v1.eventos import EventoExportacionImagenesFinalizado, EventoExportacionImagenesFinalizadoPayload
+from saludtechalpes.modulos.imagenes.infraestructura.schema.v1.eventos import EventoExportacionImagenesFinalizado, EventoExportacionImagenesFinalizadoPayload, EventoDatosAnonimizados, EventoDatosAnonimizadosPayload
 
 import datetime
 epoch = datetime.datetime.utcfromtimestamp(0)
@@ -19,20 +19,29 @@ class Despachador:
         cliente.close()
 
     def publicar_comando(self):
-        payload=ComandoObtenerImagenPayload(
-            tipo_imagen = 'aaaa',
-            tipo_patologia = 'aaaa'
+        payload=ComandoRollbackExportarImagenPayload(
+            id = '522416de-ca54-4ece-8de9-6b0de8a32554'
         )
-        comando_integracion = ComandoObtenerImagen(data = payload)
-        self._publicar_mensaje(comando_integracion, 'comandos-obtener-imagenes', AvroSchema(ComandoObtenerImagen))
+        comando_integracion = ComandoRollbackExportarImagen(data = payload)
+        self._publicar_mensaje(comando_integracion, 'revertir-obtencion-imagenes', AvroSchema(ComandoRollbackExportarImagen))
 
     def publicar_evento(self, evento, topico):
-        payload = EventoExportacionImagenesFinalizadoPayload(
-            mensaje = evento.data.mensaje,
-            cantidad_imagenes_exportadas= evento.data.cantidad_imagenes_exportadas,
-            estado = evento.data.estado,
-            timestamp = int(datetime.datetime.now().timestamp())
-        )
+        if isinstance(evento, EventoExportacionImagenesFinalizado):
 
-        evento_integracion = EventoExportacionImagenesFinalizado(data = payload)
-        self._publicar_mensaje(evento_integracion, topico, schema= AvroSchema(EventoExportacionImagenesFinalizado))
+            payload = EventoExportacionImagenesFinalizadoPayload(
+                mensaje = evento.data.mensaje,
+                cantidad_imagenes_exportadas= evento.data.cantidad_imagenes_exportadas,
+                estado = evento.data.estado,
+                timestamp = int(datetime.datetime.now().timestamp())
+            )
+
+            evento_integracion = EventoExportacionImagenesFinalizado(data = payload)
+            self._publicar_mensaje(evento_integracion, topico, schema= AvroSchema(EventoExportacionImagenesFinalizado))
+
+        elif isinstance(evento, EventoDatosAnonimizados):
+            payload = EventoDatosAnonimizadosPayload(
+                id = evento.data.id,
+                estado = evento.data.estado
+            )
+            evento_integracion = EventoDatosAnonimizados( data=payload)
+            self._publicar_mensaje(evento_integracion, topico, schema = AvroSchema(EventoDatosAnonimizados))

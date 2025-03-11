@@ -9,4 +9,6 @@ COPY . .
 
 WORKDIR "/src"
 
+ENV PYTHONUNBUFFERED=1
+
 CMD [ "uvicorn", "bff_sta.main:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]

@@ -45,6 +45,11 @@ services:
     ports:
       - "5001:5000"
     environment:
+      DB_NAME: saludtechalpes
+      DB_HOST: saludtechalpes_db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
       BROKER_HOST: pulsar
     depends_on:
       pulsar:

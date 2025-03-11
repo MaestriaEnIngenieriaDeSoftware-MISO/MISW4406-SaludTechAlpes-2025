@@ -1,4 +1,4 @@
-from saludtechalpes.config.db import db
+from exportacionsta.config.db import db
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import Enum, func
 import enum

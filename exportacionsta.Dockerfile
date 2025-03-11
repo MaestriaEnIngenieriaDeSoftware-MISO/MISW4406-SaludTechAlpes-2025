@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM  python:3.10
 
 EXPOSE 5000/tcp
 
@@ -8,5 +8,6 @@ RUN pip install --no-cache-dir wheel
 RUN pip install --no-cache-dir -r exportacionsta-requirements.txt
 
 COPY . .
+
 
 CMD [ "flask", "--app", "./src/exportacionsta/api", "run", "--host=0.0.0.0"]

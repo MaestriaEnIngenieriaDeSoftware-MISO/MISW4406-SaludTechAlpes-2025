@@ -35,13 +35,16 @@ def suscribirse_a_comandos():
                 tipo_imagen= comando_integracion.tipo_imagen,
                 tipo_patologia= comando_integracion.tipo_patologia
             )
+
+            uuiud_test = str(uuid.uuid4())
             with app.app_context():
                 resultado_imagenes = ejecutar_query(comando)
                 map_imagen = MapeadorImagenDTOJson()
                 imagen = [map_imagen.dto_a_externo(resultado) for resultado in resultado_imagenes.resultado]
 
                 imagenes_exportadas = ImagenesExportadas(
-                    id = comando_integracion.id,
+                    # id = comando_integracion.id,
+                    id = uuiud_test,
                     total_imagenes = len(imagen),
                     imagenes=json.dumps(imagen, default=handle_json_serialization)
                 )
@@ -50,7 +53,8 @@ def suscribirse_a_comandos():
 
                 eventoFinalizado = EventoExportacionImagenesFinalizado(
                     data = EventoExportacionImagenesFinalizadoPayload(
-                        id = comando_integracion.id,
+                        # id = comando_integracion.id,
+                        id = uuiud_test,
                         mensaje = "La exportacion de imagenes ha sido exitosa",
                         cantidad_imagenes_exportadas = len(imagen),
                         estado = "Exitoso",
@@ -62,7 +66,8 @@ def suscribirse_a_comandos():
 
                 evento_datos_anonimizados = EventoDatosAnonimizados(
                     data = EventoDatosAnonimizadosPayload(
-                        id = comando_integracion.id,
+                        id = uuiud_test,
+                        # id = str(comando_integracion.id),
                         estado = 'Exitoso'
                     )
                 )

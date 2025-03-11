@@ -2,7 +2,7 @@ import pulsar
 from pulsar.schema import *
 
 from exportacionsta.seedwork.infraestructura import utils
-from exportacionsta.modulos.exportacion.infraestructura.schema.v1.comandos import ComandoObtenerImagenes, ComandoObtenerImagenesPayload, ComandoRollbackExportarImagenPayload
+from exportacionsta.modulos.exportacion.infraestructura.schema.v1.comandos import ComandoObtenerImagenes, ComandoObtenerImagenesPayload, ComandoRollbackExportarImagenPayload, ComandoRollbackExportarImagen
 import datetime
 
 epoch = datetime.datetime.utcfromtimestamp(0)
@@ -18,6 +18,14 @@ class Despachador:
         cliente.close()
 
     def publicar_comando(self,comando, topico):
+        payload=ComandoObtenerImagenesPayload(
+            tipo_imagen= comando.tipo_imagen,
+            tipo_patologia= comando.tipo_patologia
+        )
+        comando_integracion = ComandoObtenerImagenes(data = payload)
+        self._publicar_mensaje(comando_integracion, topico, AvroSchema(ComandoObtenerImagenes))
+
+    def publicar_comando_rollback(self,comando, topico):
         payload=ComandoRollbackExportarImagenPayload(
             id= comando.data.id,
         )

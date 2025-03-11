@@ -29,7 +29,7 @@ def suscribirse_a_comandos():
                 )
 
                 despachador = Despachador()
-                despachador.publicar_evento(comando_rollback, 'revertir-obtencion-imagenes')
+                despachador.publicar_comando_rollback(comando_rollback, 'revertir-obtencion-imagenes')
 
             consumidor.acknowledge(mensaje)   
 

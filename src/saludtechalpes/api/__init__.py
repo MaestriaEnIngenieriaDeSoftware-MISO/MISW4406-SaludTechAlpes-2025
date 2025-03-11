@@ -17,6 +17,7 @@ def comenzar_consumidor():
     import saludtechalpes.modulos.imagenes.infraestructura.consumidores as imagenes
 
     threading.Thread(target= imagenes.suscribirse_a_comandos).start()
+    threading.Thread(target= imagenes.suscribirse_a_comandos_rollback).start()
 
 def importar_modelos_alchemy():
     import saludtechalpes.modulos.imagenes.infraestructura.dto
@@ -25,6 +26,7 @@ def create_app(configuracion=None):
     global app
     # Init la aplicacion de Flask
     app = Flask(__name__, instance_relative_config=True)
+
     app.config['SQLALCHEMY_DATABASE_URI'] =(
             f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

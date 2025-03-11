@@ -36,7 +36,7 @@ def ejecutar_comando_exportar_imagenes(comando: ExportarImagenes):
     handler = ExportarImagenesHandler()
     handler.handle(comando)
 
-@comando.register()
+@comando.register(RegistrarOperacion)
 def ejecutar_comando_registrar_operacion():
     comando_registrar_operacion = RegistrarOperacion(estado = Estado.INICIADO)
     handler_operaciones = RegistrarOperacionHadler()

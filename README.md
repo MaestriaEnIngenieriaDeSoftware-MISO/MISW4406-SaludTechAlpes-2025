@@ -230,7 +230,76 @@ Para desplegar los servicios en Kubernetes, utiliza los archivos de configuraci�
    ```sh
    kubectl apply -f deployment/k8s-deployment.yaml
    ```
-   
+
+---
+
+## 🧪 Uso de la Colección de Postman
+
+Para facilitar la interacción con el BFF STA, se ha creado una colección de Postman que contiene las consultas necesarias.
+
+### 📥 Importar la Colección
+
+1. Abre Postman.
+2. Ve a `File -> Import`.
+3. Selecciona el archivo `postman_collections/bff_sta_queries.json` ubicado en el directorio del proyecto.
+4. La colección `BFF STA Queries` aparecerá en tu lista de colecciones.
+
+### 🚀 Ejecutar Consultas
+
+1. Asegúrate de que el servicio BFF STA esté en ejecución.
+2. Selecciona la colección `BFF STA Queries`.
+3. Ejecuta la consulta `Obtener Imágenes` para probar la funcionalidad del servicio.
+
+---
+
+## 🧪 Pruebas de GraphQL con Strawberry
+
+Para probar las consultas GraphQL directamente en el BFF STA, puedes acceder al endpoint de Strawberry.
+
+### 🌐 Acceder al Endpoint de GraphQL
+
+1. Asegúrate de que el servicio BFF STA esté en ejecución.
+2. Abre tu navegador web.
+3. Navega a la siguiente URL:
+   ```
+   http://localhost:5002/v1
+   ```
+4. Utiliza la interfaz de Strawberry para ejecutar tus consultas GraphQL.
+
+### 📋 Ejemplo de Consulta
+
+Puedes probar la siguiente consulta para obtener imágenes:
+
+```graphql
+query {
+  imagenes(tipoPatologia: "patologia 1", tipoImagen: "tipo imagen 1") {
+    statusCode
+  }
+}
+```
+
+Esto te permitirá verificar que el servicio está funcionando correctamente y que puedes realizar consultas GraphQL.
+
+---
+
+## 🌐 Probar `index.html` con Live Server
+
+Para probar la interfaz de usuario del servicio STA (`index.html`) utilizando la extensión de Live Server en Visual Studio Code, sigue estos pasos:
+
+### 📥 Instalar la Extensión Live Server
+
+1. Abre Visual Studio Code.
+2. Ve a la pestaña de extensiones (`Ctrl+Shift+X`).
+3. Busca `Live Server` y haz clic en `Install`.
+
+### 🚀 Ejecutar Live Server
+
+1. Navega al directorio `src/ui_sta` en tu proyecto.
+2. Haz clic derecho en el archivo `index.html`.
+3. Selecciona `Open with Live Server`.
+
+Esto abrirá una nueva pestaña en tu navegador web con la interfaz de usuario del servicio STA. Cualquier cambio que realices en el archivo `index.html` se reflejará automáticamente en el navegador.
+
 
 ## Asignaciones de los integrantes del equipo
 Se realizaron las siguientes asignaciones de tareas para cada integrante del equipo:

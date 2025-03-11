@@ -230,4 +230,20 @@ Para desplegar los servicios en Kubernetes, utiliza los archivos de configuraci�
    ```sh
    kubectl apply -f deployment/k8s-deployment.yaml
    ```
+   
+
+## Asignaciones de los integrantes del equipo
+Se realizaron las siguientes asignaciones de tareas para cada integrante del equipo:
+### 📋 Asignaciones Entrega 5
+| Nombre                   | Asignación                                                                          |
+|--------------------------|-------------------------------------------------------------------------------------|
+| **Andrés Sánchez**       | Comando de eliminación de registro de imágenes exportadas                           |
+| **Andrés Sánchez**       | Tópico de eventos de estado de transacción de datos anonimizados                    |
+| **Juan Carlos De Jesus** | Creación de base de datos en servicio de exportación de información                 |
+| **Juan Carlos De Jesus** | Integración y actualización de estado de transacción de datos anonimizados          |
+| **Cristian Pinzón**      | Desarrollo de fallo aleatorio en servicio de Notificaciones                         |
+| **Cristian Pinzón**      | Publicación de evento de estado del envio de Notificaciones                         |
+| **Cristian Pinzón**      | Publicación de comando para la eliminación de registro creado en datos anonimizados |
+| **Edgar Melara**         | Desarrollo del BFF, postman collection, SagaLog                                     |
+   
 
